@@ -20,7 +20,7 @@ public class TracksModel {
 
     private String trackName;
 
-    private String artist;
+    private String duration;
 
     @ManyToOne
     @JoinColumn(name = "cd_id", referencedColumnName = "id", nullable = false)

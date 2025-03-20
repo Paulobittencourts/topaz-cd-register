@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.util.List;
 
 @Entity
@@ -26,7 +25,7 @@ public class CdModel {
 
     private String artist;
 
-    private Time duration;
+    private String genre;
 
     @OneToMany(mappedBy = "cd", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TracksModel> tracks;
