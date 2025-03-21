@@ -2,6 +2,7 @@ package com.br.paulohbs.registraion_cd.controller;
 
 
 import com.br.paulohbs.registraion_cd.dto.CdDTO;
+import com.br.paulohbs.registraion_cd.dto.CdTrackDTO;
 import com.br.paulohbs.registraion_cd.service.CdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,28 @@ public class CdController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error occurred while deleting track: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{cdId}")
+    public ResponseEntity<CdDTO> updateCd(@PathVariable Long cdId, @RequestBody CdDTO cdDTO) {
+        try {
+            CdDTO updatedCd = cdService.updateCd(cdId, cdDTO);
+            return ResponseEntity.ok(updatedCd);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @PutMapping("/{cdId}/tracks/{trackId}")
+    public ResponseEntity<CdTrackDTO> updateTrack(@PathVariable Long cdId, @PathVariable Long trackId, @RequestBody CdTrackDTO trackDTO) {
+        try {
+            CdTrackDTO updatedTrack = cdService.updateTrack(cdId, trackId, trackDTO);
+            return ResponseEntity.ok(updatedTrack);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
         }
     }
 }
