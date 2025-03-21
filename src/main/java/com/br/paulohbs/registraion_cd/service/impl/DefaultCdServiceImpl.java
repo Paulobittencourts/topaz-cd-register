@@ -1,6 +1,7 @@
 package com.br.paulohbs.registraion_cd.service.impl;
 
 import com.br.paulohbs.registraion_cd.dto.CdDTO;
+import com.br.paulohbs.registraion_cd.dto.CdTrackDTO;
 import com.br.paulohbs.registraion_cd.exception.CdCollectionCreationException;
 import com.br.paulohbs.registraion_cd.model.CdModel;
 import com.br.paulohbs.registraion_cd.model.TracksModel;
@@ -83,5 +84,36 @@ public class DefaultCdServiceImpl implements CdService {
         cd.getTracks().remove(trackToDelete);
 
         cdRepository.save(cd);
+    }
+
+    @Override
+    public CdDTO updateCd(final Long cdId, final CdDTO cdDTO) {
+        CdModel existingCd = cdRepository.findById(cdId)
+                .orElseThrow(() -> new RuntimeException("CD not found"));
+
+        existingCd.setTitle(cdDTO.getTitle());
+        existingCd.setArtist(cdDTO.getArtist());
+        existingCd.setGenre(cdDTO.getGenre());
+
+        CdModel savedCd = cdRepository.save(existingCd);
+        return modelMapper.map(savedCd, CdDTO.class);
+    }
+
+    @Override
+    public CdTrackDTO updateTrack(final Long cdId,final Long trackId,final CdTrackDTO trackDTO) {
+        final CdModel cd = cdRepository.findById(cdId)
+                .orElseThrow(() -> new RuntimeException("CD not found"));
+
+        final TracksModel track = cd.getTracks().stream()
+                .filter(t -> t.getId().equals(trackId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Track not found in this CD"));
+
+        track.setTrackName(trackDTO.getTrackName());
+        track.setDuration(trackDTO.getDuration());
+
+        cdRepository.save(cd);
+
+        return modelMapper.map(track, CdTrackDTO.class);
     }
 }

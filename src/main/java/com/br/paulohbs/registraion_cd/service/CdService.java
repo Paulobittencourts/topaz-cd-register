@@ -1,6 +1,7 @@
 package com.br.paulohbs.registraion_cd.service;
 
 import com.br.paulohbs.registraion_cd.dto.CdDTO;
+import com.br.paulohbs.registraion_cd.dto.CdTrackDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,8 @@ public interface CdService {
     void deleteCd(final Long id);
 
     void deleteTrackFromCd(final Long cdId, final Long trackId);
+
+    CdDTO updateCd(final Long cdId,final CdDTO cdDTO);
+
+    CdTrackDTO updateTrack(final Long cdId,final Long trackId,final CdTrackDTO trackDTO);
 }
